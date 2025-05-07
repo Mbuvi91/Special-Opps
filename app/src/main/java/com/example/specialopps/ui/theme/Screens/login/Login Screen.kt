@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -31,12 +29,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.need.navigation.ROUTE_REGISTER
+import com.example.specialopps.Data.AuthViewModel
 import com.example.specialopps.R
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navController: NavHostController) {
+    var authViewModel: AuthViewModel = viewModel()
     var email by remember { mutableStateOf(value = "") }
     var password by remember { mutableStateOf(value = "") }
     var context = LocalContext.current
@@ -96,6 +97,7 @@ fun LoginScreen(){
 
         Button(
             onClick = {
+                authViewModel.login(email, password, navController, context)
 
 
             },
@@ -151,7 +153,7 @@ fun LoginScreen(){
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(rememberNavController())
 
 
 

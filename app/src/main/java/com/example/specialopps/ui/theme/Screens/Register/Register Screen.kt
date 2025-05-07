@@ -3,14 +3,12 @@ package com.example.specialopps.ui.theme.Screens.Register
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -39,9 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.specialopps.Data.AuthViewModel
 
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(navController: () -> Unit) {
+    var authViewModel: AuthViewModel = viewModel()
     var firstname by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
     var password by remember { mutableStateOf(value = "") }
@@ -124,7 +126,9 @@ fun RegisterScreen(){
         )
 
         Button(
-            onClick = {},
+            onClick =  {authViewModel.signup(firstname,email,password,navController,context)
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
@@ -152,5 +156,5 @@ fun RegisterScreen(){
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen()
+    RegisterScreen(rememberNavController())
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "18255815275",
+    "project_id": "special-opps-50d54",
+    "storage_bucket": "special-opps-50d54.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18255815275:android:c46fa9694112e25097472e",
+        "android_client_info": {
+          "package_name": "com.example.specialopps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChaNQtFJSfNXAp15yOxLEGhU7PmkX3gfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
