@@ -38,11 +38,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.specialopps.Data.AuthViewModel
+import com.example.specialopps.navigation.ROUTE_LOGIN
 
 @Composable
-fun RegisterScreen(navController: () -> Unit) {
+fun RegisterScreen(navController:NavController) {
     var authViewModel: AuthViewModel = viewModel()
     var firstname by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
@@ -51,16 +53,16 @@ fun RegisterScreen(navController: () -> Unit) {
     val context = LocalContext.current
     val passwordVisible by remember { mutableStateOf(false) }
 
-    // Define a gradient for the background
+
     val gradientBrush = Brush.linearGradient(
-        colors = listOf(Color.Blue, Color.Green) // Customize these colors as you wish
+        colors = listOf(Color.Blue, Color.Green)
     )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(gradientBrush) // Apply the gradient as the background
+            .background(gradientBrush)
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -146,7 +148,7 @@ fun RegisterScreen(navController: () -> Unit) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .clickable {
-                    // Add navigation to Sign In screen
+                    navController.navigate(ROUTE_LOGIN)
                 }
                 .padding(top = 16.dp)
         )

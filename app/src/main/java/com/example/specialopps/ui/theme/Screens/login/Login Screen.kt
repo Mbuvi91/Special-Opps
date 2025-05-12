@@ -52,7 +52,7 @@ fun LoginScreen(navController: NavHostController) {
             .fillMaxHeight()
             .background(gradientBrush)
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -84,16 +84,6 @@ fun LoginScreen(navController: NavHostController) {
         )
 
 
-        Text(
-            text = "Forgot password?",
-            color = Color.Blue,
-            modifier = Modifier
-                .clickable {
-
-                }
-                .padding(bottom = 16.dp)
-        )
-
 
         Button(
             onClick = {
@@ -110,45 +100,11 @@ fun LoginScreen(navController: NavHostController) {
         }
 
 
-        Button(
-            onClick = {
 
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF4285F4))
-        ) {
-
-            Icon(
-                painter = painterResource(id = R.drawable.google_icon),
-                contentDescription = "Google Sign-in",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Text(text = "Sign in with Google", color = Color.White)
-        }
-
-
-        Button(
-            onClick = {
-
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            colors = ButtonDefaults.buttonColors(Color.Black) // Apple Black
-        ) {
-
-            Icon(
-                painter = painterResource(id = R.drawable.apple_icon),  // Use an Apple logo icon
-                contentDescription = "Apple Sign-in",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Text(text = "Sign in with Apple", color = Color.White)
         }
     }
-}
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.example.specialopps.navigation.ROUTE_VIEW_STUDENT
 import com.example.specialopps.Models.StudentModel
 import com.example.specialopps.models.ImgurApiService
+import com.example.specialopps.navigation.ROUTE_HOME
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -67,9 +68,7 @@ class StudentViewModel: ViewModel() {
         context: Context,
         name: String,
         gender: String,
-        nationality:String,
         course: String,
-        desc: String,
         navController: NavController
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -87,7 +86,7 @@ class StudentViewModel: ViewModel() {
 
                 val response = getImgurService().uploadImage(
                     body,
-                    "Client-ID 3e3a4b2ae536c21"
+                    "Client-ID 31943ccb106e11b"
                 )
 
                 if (response.isSuccessful) {
@@ -95,7 +94,7 @@ class StudentViewModel: ViewModel() {
 
                     val studentId = database.push().key ?: ""
                     val student = StudentModel(
-                        name, gender,nationality, course,desc, imageUrl, studentId
+                        name, gender,course, imageUrl, studentId
                     )
 
                     database.child(studentId).setValue(student)
@@ -103,7 +102,7 @@ class StudentViewModel: ViewModel() {
                             viewModelScope.launch {
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(context, "Student saved successfully", Toast.LENGTH_SHORT).show()
-                                    navController.navigate(ROUTE_VIEW_STUDENT)
+                                    navController.navigate(ROUTE_HOME)
 
                                 }
                             }
@@ -158,12 +157,12 @@ class StudentViewModel: ViewModel() {
         return students
     }
     fun updateStudent(context: Context, navController: NavController,
-                      name: String, gender: String,nationality: String,
-                      course: String, desc: String, studentId: String){
+                      name: String, gender: String,
+                      course: String,  studentId: String){
         val databaseReference = FirebaseDatabase.getInstance()
             .getReference("Students/$studentId")
         val updatedStudent = StudentModel(name, gender,
-            course, desc,"",studentId)
+            course, "",studentId)
 
         databaseReference.setValue(updatedStudent)
             .addOnCompleteListener { task ->

@@ -45,6 +45,8 @@ import coil.compose.AsyncImage
 import com.example.specialopps.navigation.ROUTE_ADD_STUDENT
 import com.example.specialopps.R
 import com.example.specialopps.Data.StudentViewModel
+import com.example.specialopps.navigation.ROUTE_DASHBOARD
+import com.example.specialopps.navigation.ROUTE_HOME
 
 
 @Composable
@@ -55,9 +57,7 @@ fun AddstudentScreen(navController: NavController){
         uri?.let{ imageUri.value=it}}
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
-    var nationality by remember { mutableStateOf("") }
     var course by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
     val studentViewModel: StudentViewModel = viewModel()
     val context = LocalContext.current
     Column (modifier = Modifier.fillMaxSize().padding(25.dp), horizontalAlignment = Alignment.CenterHorizontally){
@@ -87,31 +87,21 @@ fun AddstudentScreen(navController: NavController){
             label = { Text(text = "Enter your gender") },
             placeholder = { Text(text = "Please enter gender") },
             modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = nationality,
-            onValueChange = {newNationality->nationality=newNationality},
-            label = { Text(text = "Enter Nationality") },
-            placeholder = { Text(text = "Please enter nationality") },
-            modifier = Modifier.fillMaxWidth())
 
         OutlinedTextField(value = course,
             onValueChange = {newCourse->course=newCourse},
             label = { Text(text = "Enter your course") },
             placeholder = { Text(text = "Please enter course") },
             modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = description,
-            onValueChange = {newDescription->description=newDescription},
-            label = { Text(text = "Fill your description") },
-            placeholder = { Text(text = "Please enter desc") },
-            modifier = Modifier.fillMaxWidth().height(150.dp),
-            singleLine = false)
+
         Row (modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween){
             Button(onClick = {navController.navigate(
-                ROUTE_ADD_STUDENT
+                ROUTE_HOME
             ) }, colors = ButtonDefaults.buttonColors(Color.Green)) { Text(text = "Dashboard") }
             Button(onClick = {
                 imageUri.value?.let {
-                    studentViewModel.uploadStudentWithImage(it, context,name,gender,nationality,course, description,navController)
+                    studentViewModel.uploadStudentWithImage(it, context,name,gender,course,navController)
                 }?: Toast.makeText(context,"Please pick an image",Toast.LENGTH_LONG).show()
             },colors = ButtonDefaults.buttonColors(Color.Black)) { Text(text = "Save") }
         }

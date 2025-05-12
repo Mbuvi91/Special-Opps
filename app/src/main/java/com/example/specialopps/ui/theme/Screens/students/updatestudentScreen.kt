@@ -58,9 +58,7 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? -> uri?.let { imageUri.value=it } }
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
-    var nationality by remember { mutableStateOf("") }
     var course by remember { mutableStateOf("") }
-    var desc by remember { mutableStateOf("") }
     val studentViewModel: StudentViewModel = viewModel()
     val context= LocalContext.current
     val currentDataRef  = FirebaseDatabase.getInstance()
@@ -73,9 +71,7 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
                 student?.let {
                     name = it.name
                     gender = it.gender
-                    nationality=it.nationality
                     course = it.course
-                    desc = it.desc
                 }
             }
 
@@ -116,21 +112,11 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
             label = { Text(text = "Enter student gender") },
             placeholder = { Text(text = "PLease enter student gender") },
             modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = nationality,
-            onValueChange = {newNationality->nationality=newNationality},
-            label = { Text(text = "Enter Nationality") },
-            placeholder = { Text(text = "Please enter nationality") },
-            modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = course,
             onValueChange = {newCourse->course=newCourse},
             label = { Text(text = "Enter student course") },
             placeholder = { Text(text = "PLease enter student course") },
             modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = desc,
-            onValueChange = {newDesc->desc=newDesc},
-            label = { Text(text = "Enter student description") },
-            placeholder = { Text(text = "PLease enter student description") },
-            modifier = Modifier.fillMaxWidth().height(150.dp), singleLine = false)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -146,9 +132,7 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
                     navController = navController,
                     name = name,
                     gender = gender,
-                    nationality=nationality,
                     course = course,
-                    desc = desc,
                     studentId = studentId
                 )
             }) {

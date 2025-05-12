@@ -76,9 +76,7 @@ fun ViewStudents(navController: NavHostController){
                     StudentItem(
                         name = it.name,
                         gender = it.gender,
-                        nationality=it.nationality,
                         course = it.course,
-                        desc = it.desc,
                         studentId = it.studentId,
                         imageUrl = it.imageUrl,
                         navController = navController,
@@ -92,8 +90,7 @@ fun ViewStudents(navController: NavHostController){
     }
 }
 @Composable
-fun StudentItem(name:String,gender:String,nationality:String,course:String,
-                desc: String,studentId:String,imageUrl: String,navController: NavHostController,
+fun StudentItem(name:String,gender:String,course:String, studentId:String,imageUrl: String,navController: NavHostController,
                 studentRepository: StudentViewModel
 ){
     val context = LocalContext.current
@@ -167,33 +164,12 @@ fun StudentItem(name:String,gender:String,nationality:String,course:String,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold)
 
-                    Text(text = "STUDENT NATIONALITY",
-                        color = Color.White,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
-
-
-                    Text(text = nationality,
-                        color = Color.White,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
-
                     Text(text = "STUDENT COURSE",
                         color = Color.Black,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold)
 
                     Text(text = course,
-                        color = Color.White,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
-
-                    Text(text = "DESC",
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
-
-                    Text(text = desc,
                         color = Color.White,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold)
