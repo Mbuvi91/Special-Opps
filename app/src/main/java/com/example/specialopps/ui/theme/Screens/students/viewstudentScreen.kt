@@ -1,6 +1,7 @@
 package com.example.need.ui.theme.screens.students
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,64 +45,69 @@ import com.example.specialopps.Data.StudentViewModel
 import com.example.specialopps.Models.StudentModel
 import com.example.specialopps.navigation.ROUTE_UPDATE_STUDENT
 
-
 @Composable
-fun ViewStudents(navController: NavHostController){
+fun ViewStudents(navController: NavHostController) {
     val context = LocalContext.current
     val studentRepository = StudentViewModel()
     val emptyUploadState = remember {
-        mutableStateOf(
-            StudentModel("","","","","","")
-        )
+        mutableStateOf(StudentModel("", "", "", "", "", ""))
     }
     val emptyUploadListState = remember {
         mutableStateListOf<StudentModel>()
     }
     val students = studentRepository.viewStudents(
-        emptyUploadState,emptyUploadListState, context)
-    Column (modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally){
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "All Students",
-                fontSize = 30.sp,
-                fontFamily = FontFamily.SansSerif,
-                color= Color.Black)
-            Spacer(modifier = Modifier.height(20.dp))
+        emptyUploadState, emptyUploadListState, context
+    )
 
-            LazyColumn(){
-                items(students){
-                    StudentItem(
-                        name = it.name,
-                        gender = it.gender,
-                        course = it.course,
-                        studentId = it.studentId,
-                        imageUrl = it.imageUrl,
-                        navController = navController,
-                        studentRepository = studentRepository
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "All Students",
+            fontSize = 30.sp,
+            fontFamily = FontFamily.SansSerif,
+            color = Color.White
+        )
+        Spacer(modifier = Modifier.height(20.dp))
 
-                    )
-                }
-
+        LazyColumn {
+            items(students) {
+                StudentItem(
+                    name = it.name,
+                    gender = it.gender,
+                    course = it.course,
+                    studentId = it.studentId,
+                    imageUrl = it.imageUrl,
+                    navController = navController,
+                    studentRepository = studentRepository
+                )
             }
         }
     }
 }
+
 @Composable
-fun StudentItem(name:String,gender:String,course:String, studentId:String,imageUrl: String,navController: NavHostController,
-                studentRepository: StudentViewModel
-){
+fun StudentItem(
+    name: String,
+    gender: String,
+    course: String,
+    studentId: String,
+    imageUrl: String,
+    navController: NavHostController,
+    studentRepository: StudentViewModel
+) {
     val context = LocalContext.current
-    Column (modifier = Modifier.fillMaxWidth()){
-        Card (modifier = Modifier
-            .padding(10.dp)
-            .height(210.dp),
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Card(
+            modifier = Modifier
+                .padding(10.dp)
+                .height(210.dp),
             shape = MaterialTheme.shapes.medium,
-            colors = CardDefaults.cardColors
-                (containerColor = Color.Gray))
-        {
+            colors = CardDefaults.cardColors(containerColor = Color.DarkGray)
+        ) {
             Row {
                 Column {
                     AsyncImage(
@@ -115,71 +121,91 @@ fun StudentItem(name:String,gender:String,course:String, studentId:String,imageU
                     )
 
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Button(onClick = {
-                            studentRepository.deleteStudent(context,studentId,navController)
-
-                        },
+                        Button(
+                            onClick = {
+                                studentRepository.deleteStudent(context, studentId, navController)
+                            },
                             shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(Color.Red)
+                            colors = ButtonDefaults.buttonColors(Color.Red),
+                            modifier = Modifier.padding(horizontal = 8.dp)
                         ) {
-                            Text(text = "REMOVE",
+                            Text(
+                                text = "REMOVE",
                                 color = Color.Black,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp)
+                                fontSize = 16.sp
+                            )
                         }
-                        Button(onClick = {
-                            navController.navigate("$ROUTE_UPDATE_STUDENT/$studentId")
-                        },
+
+                        Button(
+                            onClick = {
+                                navController.navigate("$ROUTE_UPDATE_STUDENT/$studentId")
+                            },
                             shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(Color.Green)
+                            colors = ButtonDefaults.buttonColors(Color.Green),
+                            modifier = Modifier.padding(horizontal = 8.dp)
                         ) {
-                            Text(text = "UPDATE",
+                            Text(
+                                text = "UPDATE",
                                 color = Color.Black,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp)
+                                fontSize = 16.sp
+                            )
                         }
                     }
-
                 }
-                Column (modifier = Modifier
-                    .padding(vertical = 10.dp, horizontal = 10.dp)
-                    .verticalScroll(rememberScrollState())){
-                    Text(text = "STUDENT NAME",
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
 
-                    Text(text = name,
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 10.dp, horizontal = 10.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        text = "STUDENT NAME",
+                        color = Color.LightGray,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = name,
                         color = Color.White,
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold
+                    )
 
-                    Text(text = "STUDENT GENDER",
-                        color = Color.Black,
+                    Text(
+                        text = "STUDENT GENDER",
+                        color = Color.LightGray,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
-
-                    Text(text = gender,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = gender,
                         color = Color.White,
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold
+                    )
 
-                    Text(text = "STUDENT COURSE",
-                        color = Color.Black,
+                    Text(
+                        text = "STUDENT COURSE",
+                        color = Color.LightGray,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
-
-                    Text(text = course,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = course,
                         color = Color.White,
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
     }
 }
+
 @Preview
 @Composable
-fun ViewStudentsPreview(){
+fun ViewStudentsPreview() {
     ViewStudents(rememberNavController())
 }

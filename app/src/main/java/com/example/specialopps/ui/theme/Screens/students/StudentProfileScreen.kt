@@ -31,10 +31,6 @@ import com.example.specialopps.Models.StudentProfile
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudentProfileScreen(navController: NavController) {
-    val gradientBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFF4CAF50), Color(0xFF2196F3))
-    )
-
     val context = LocalContext.current
     val viewModel: StudentProfileViewModel = viewModel()
 
@@ -50,25 +46,22 @@ fun StudentProfileScreen(navController: NavController) {
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        imageUri = uri
-    }
+    ) { uri: Uri? -> imageUri = uri }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(gradientBrush)
+            .background(Color.Black)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(30.dp))
 
-
         Box(
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .background(Color.Gray)
+                .background(Color.DarkGray)
                 .clickable { imagePickerLauncher.launch("image/*") },
             contentAlignment = Alignment.Center
         ) {
@@ -89,9 +82,18 @@ fun StudentProfileScreen(navController: NavController) {
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Name") },
+            label = { Text("Name", color = Color.White) },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.Gray,
+                cursorColor = Color.White
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -105,13 +107,22 @@ fun StudentProfileScreen(navController: NavController) {
                 value = gender,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Gender") },
+                label = { Text("Gender", color = Color.White) },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderDropdownExpanded)
                 },
                 modifier = Modifier
                     .menuAnchor()
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.Gray,
+                    cursorColor = Color.White
+                )
             )
 
             ExposedDropdownMenu(
@@ -136,9 +147,18 @@ fun StudentProfileScreen(navController: NavController) {
         OutlinedTextField(
             value = course,
             onValueChange = { course = it },
-            label = { Text("Course") },
+            label = { Text("Course", color = Color.White) },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.Gray,
+                cursorColor = Color.White
+            )
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -164,7 +184,7 @@ fun StudentProfileScreen(navController: NavController) {
                     }
                 )
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
         ) {
             Icon(Icons.Filled.Edit, contentDescription = "Save", tint = Color.White)
             Spacer(modifier = Modifier.width(8.dp))

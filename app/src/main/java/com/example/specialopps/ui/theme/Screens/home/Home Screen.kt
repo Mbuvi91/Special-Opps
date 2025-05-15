@@ -1,8 +1,6 @@
 package com.example.specialopps.ui.theme.Screens.Home
 
 import android.widget.Toast
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -43,35 +40,10 @@ fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     var showPasswordDialog by remember { mutableStateOf(false) }
 
-
-    val infiniteTransition = rememberInfiniteTransition()
-
-    val color1 by infiniteTransition.animateColor(
-        initialValue = Color(0xFF2196F3),
-        targetValue = Color(0xFF4CAF50),
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 4000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-    val color2 by infiniteTransition.animateColor(
-        initialValue = Color(0xFF4CAF50),
-        targetValue = Color(0xFF81D4FA),
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 4000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-    val animatedBrush = Brush.verticalGradient(
-        colors = listOf(color1, color2)
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = animatedBrush)
+            .background(Color.Black) // Solid black background
     ) {
         Scaffold(
             topBar = {
@@ -99,8 +71,7 @@ fun HomeScreen(navController: NavController) {
                 )
             },
             containerColor = Color.Transparent,
-            contentColor = Color.White,
-            modifier = Modifier.background(brush = animatedBrush)
+            contentColor = Color.White
         ) { innerPadding ->
 
             LazyColumn(
@@ -155,22 +126,12 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun FeatureCard(title: String, icon: ImageVector, onClick: () -> Unit) {
-    val infiniteTransition = rememberInfiniteTransition()
-    val glowColor by infiniteTransition.animateColor(
-        initialValue = Color(0xFF8BC34A),
-        targetValue = Color(0xFFCDDC39),
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1200, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
     Box(
         modifier = Modifier
             .padding(10.dp)
             .drawBehind {
                 drawRoundRect(
-                    color = glowColor.copy(alpha = 0.6f),
+                    color = Color(0xFF8BC34A).copy(alpha = 0.6f),
                     cornerRadius = androidx.compose.ui.geometry.CornerRadius(20.dp.toPx(), 20.dp.toPx()),
                     size = size
                 )
@@ -219,15 +180,11 @@ fun BottomNavigationBar(
     val icons = listOf(Icons.Default.Home, Icons.Default.AccountBox)
     val routes = listOf(ROUTE_ADD_STUDENT, ROUTE_PROFILE)
 
-    val gradientBrush = Brush.horizontalGradient(
-        colors = listOf(Color(0xFF2196F3), Color(0xFF4CAF50))
-    )
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp)
-            .background(brush = gradientBrush)
+            .background(Color.Black) // Solid black bottom nav background
     ) {
         NavigationBar(
             containerColor = Color.Transparent,

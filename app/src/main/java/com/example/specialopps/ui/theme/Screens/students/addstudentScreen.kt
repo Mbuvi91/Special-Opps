@@ -50,66 +50,103 @@ import com.example.specialopps.navigation.ROUTE_HOME
 
 
 @Composable
-fun AddstudentScreen(navController: NavController){
-    val imageUri = rememberSaveable() { mutableStateOf<Uri?>(null) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent())
-    {uri: Uri? ->
-        uri?.let{ imageUri.value=it}}
+fun AddstudentScreen(navController: NavController) {
+    val imageUri = rememberSaveable { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { imageUri.value = it }
+    }
+
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var course by remember { mutableStateOf("") }
     val studentViewModel: StudentViewModel = viewModel()
     val context = LocalContext.current
-    Column (modifier = Modifier.fillMaxSize().padding(25.dp), horizontalAlignment = Alignment.CenterHorizontally){
-        Box(modifier = Modifier.fillMaxWidth().background(Color.Magenta)) {
-            Text(text = "ADD NEW STUDENT",
-            fontStyle = FontStyle.Italic,
-            fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth())
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black) // 🔁 Changed background to black
+            .padding(25.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Magenta)
+        ) {
+            Text(
+                text = "ADD NEW STUDENT",
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.Bold,
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
-        Card (shape = CircleShape, modifier = Modifier.padding(10.dp).size(200.dp)){
-            AsyncImage(model = imageUri.value ?: R.drawable.ic_person,
+
+        Card(
+            shape = CircleShape,
+            modifier = Modifier
+                .padding(10.dp)
+                .size(200.dp)
+        ) {
+            AsyncImage(
+                model = imageUri.value ?: R.drawable.ic_person,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(200.dp).clickable{ launcher.launch("image/*")})
+                modifier = Modifier
+                    .size(200.dp)
+                    .clickable { launcher.launch("image/*") }
+            )
         }
-        Text(text = "Upload Your Picture")
 
-        OutlinedTextField(value = name,
-            onValueChange = {newName->name=newName},
-            label = { Text(text = "Enter Name") },
-            placeholder = { Text(text = "Please enter name") },
-            modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = gender,
-            onValueChange = {newGender->gender=newGender},
-            label = { Text(text = "Enter your gender") },
-            placeholder = { Text(text = "Please enter gender") },
-            modifier = Modifier.fillMaxWidth())
+        Text(text = "Upload Your Picture", color = Color.White)
 
-        OutlinedTextField(value = course,
-            onValueChange = {newCourse->course=newCourse},
-            label = { Text(text = "Enter your course") },
-            placeholder = { Text(text = "Please enter course") },
-            modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Enter Name") },
+            placeholder = { Text("Please enter name") },
+            modifier = Modifier.fillMaxWidth()
+        )
 
-        Row (modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween){
-            Button(onClick = {navController.navigate(
-                ROUTE_HOME
-            ) }, colors = ButtonDefaults.buttonColors(Color.Green)) { Text(text = "Dashboard") }
-            Button(onClick = {
-                imageUri.value?.let {
-                    studentViewModel.uploadStudentWithImage(it, context,name,gender,course,navController)
-                }?: Toast.makeText(context,"Please pick an image",Toast.LENGTH_LONG).show()
-            },colors = ButtonDefaults.buttonColors(Color.Black)) { Text(text = "Save") }
+        OutlinedTextField(
+            value = gender,
+            onValueChange = { gender = it },
+            label = { Text("Enter your gender") },
+            placeholder = { Text("Please enter gender") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = course,
+            onValueChange = { course = it },
+            label = { Text("Enter your course") },
+            placeholder = { Text("Please enter course") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                onClick = { navController.navigate(ROUTE_HOME) },
+                colors = ButtonDefaults.buttonColors(Color.Green)
+            ) {
+                Text("Dashboard")
+            }
+
+            Button(
+                onClick = {
+                    imageUri.value?.let {
+                        studentViewModel.uploadStudentWithImage(it, context, name, gender, course, navController)
+                    } ?: Toast.makeText(context, "Please pick an image", Toast.LENGTH_LONG).show()
+                },
+                colors = ButtonDefaults.buttonColors(Color.Black)
+            ) {
+                Text("Save", color = Color.White)
+            }
         }
     }
-
-}
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun AddstudentScreenPreview(){
-    AddstudentScreen(rememberNavController())
 }

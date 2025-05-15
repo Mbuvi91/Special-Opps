@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,19 +54,21 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 @Composable
-fun UpdatestudentScreen(navController: NavController,studentId: String){
-    val imageUri = rememberSaveable() { mutableStateOf<Uri?>(null) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? -> uri?.let { imageUri.value=it } }
+fun UpdatestudentScreen(navController: NavController, studentId: String) {
+    val imageUri = rememberSaveable { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { imageUri.value = it }
+    }
+
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var course by remember { mutableStateOf("") }
     val studentViewModel: StudentViewModel = viewModel()
-    val context= LocalContext.current
-    val currentDataRef  = FirebaseDatabase.getInstance()
-        .getReference().child("Students/$studentId")
+    val context = LocalContext.current
+    val currentDataRef = FirebaseDatabase.getInstance().getReference("Students/$studentId")
 
-    DisposableEffect(Unit){
-        val listener = object  : ValueEventListener {
+    DisposableEffect(Unit) {
+        val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val student = snapshot.getValue(StudentModel::class.java)
                 student?.let {
@@ -76,53 +79,87 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context,error.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
             }
         }
         currentDataRef.addValueEventListener(listener)
         onDispose { currentDataRef.removeEventListener(listener) }
     }
-    Column (modifier = Modifier.padding(10.dp)
-        .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally){
-        Box(modifier = Modifier.fillMaxWidth()
-            .background(Color.Red).padding(16.dp)){ Text(text = "UPDATE STUDENT",
-            fontStyle = FontStyle.Normal,
-            fontWeight = FontWeight.Bold,
-            fontSize = 26.sp,
-            textAlign = TextAlign.Center,
-            color = Color.White,
-            modifier = Modifier.fillMaxWidth()) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.DarkGray)
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "UPDATE STUDENT",
+                fontStyle = FontStyle.Normal,
+                fontWeight = FontWeight.Bold,
+                fontSize = 26.sp,
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         Card(shape = CircleShape, modifier = Modifier.padding(10.dp).size(200.dp)) {
-            AsyncImage(model = imageUri.value ?: R.drawable.ic_person,
+            AsyncImage(
+                model = imageUri.value ?: R.drawable.ic_person,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(200.dp)
-                    .clickable { launcher.launch("image/*") })
+                modifier = Modifier
+                    .size(200.dp)
+                    .clickable { launcher.launch("image/*") }
+            )
         }
-        Text(text = "Upload Picture Here")
 
-        OutlinedTextField(value = name,
-            onValueChange = {newName->name=newName},
-            label = { Text(text = "Enter student name") },
-            placeholder = { Text(text = "PLease enter student name") },
-            modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = gender,
-            onValueChange = {newGender->gender=newGender},
-            label = { Text(text = "Enter student gender") },
-            placeholder = { Text(text = "PLease enter student gender") },
-            modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(value = course,
-            onValueChange = {newCourse->course=newCourse},
-            label = { Text(text = "Enter student course") },
-            placeholder = { Text(text = "PLease enter student course") },
-            modifier = Modifier.fillMaxWidth())
+        Text(text = "Upload Picture Here", color = Color.LightGray)
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Enter student name", color = Color.White) },
+            placeholder = { Text("Please enter student name", color = Color.Gray) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = LocalTextStyle.current.copy(color = Color.White)
+        )
+
+        OutlinedTextField(
+            value = gender,
+            onValueChange = { gender = it },
+            label = { Text("Enter student gender", color = Color.White) },
+            placeholder = { Text("Please enter student gender", color = Color.Gray) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = LocalTextStyle.current.copy(color = Color.White)
+        )
+
+        OutlinedTextField(
+            value = course,
+            onValueChange = { course = it },
+            label = { Text("Enter student course", color = Color.White) },
+            placeholder = { Text("Please enter student course", color = Color.Gray) },
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = LocalTextStyle.current.copy(color = Color.White)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = { /*TODO: Handle Go Back*/ }) {
-                Text(text = "GO BACK")
+            Button(onClick = { navController.popBackStack() }) {
+                Text("GO BACK", color = Color.White)
             }
             Spacer(modifier = Modifier.width(20.dp))
             Button(onClick = {
@@ -136,7 +173,7 @@ fun UpdatestudentScreen(navController: NavController,studentId: String){
                     studentId = studentId
                 )
             }) {
-                Text(text = "UPDATE")
+                Text("UPDATE", color = Color.White)
             }
         }
     }
